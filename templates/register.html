@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Register</title>
+     </head>
+     <body>
+          
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="mb-4">
+                    {% for category, message in messages %}
+                        <li class="p-2 rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{url_for('register')}}">
+          <label for="username" >user name</label>
+          <input type="text" name="username" id="username" required >
+
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" required>
+
+          <label for="password">password</label>
+          <input type="password" name="password" id="password" required>
+
+          <label for="confirm_password">confirm password</label>
+          <input type="password" name="confirm_password" id="confirm_password">
+
+          <button type="submit">Register</button>
+        </form>
+
+        <p>You already have an account ? 
+          <a href="{{url_for('login')}}">Login here</a>
+          </p>
+        
+     </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    
+</head>
+
+<body>
+     {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="mb-4">
+                    {% for category, message in messages %}
+                        <li class="p-2 rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+     <h1> Edit task</h1>
+
+     <form method="POST">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" value="{{task['title']}}">
+
+          <label for="description">Title</label>
+          <input type="text" id="description" name="description" value="{{task['description']}}">
+
+          <label for="due_date">Title</label>
+          <input type="date" id="due_date" name="due_date" value="{{task['due_date']}}">
+
+          <label for="status">Status</label>
+          <select name="status" id="status">
+               <option value="" disabled selected>Select status</option>
+               <option value="to-do">To Do</option>
+               <option value="in_progress">In Progress</option>
+               <option value="completed">Completed</option>
+          </select>
+          <button type="submit">Update task</button>
+     </form>
+
+</body>
+
+
+</html>

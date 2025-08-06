@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dashboard</title>
+    
+</head>
+
+<body class="bg-gray-900 flex items-center text-white">
+     {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="mb-4">
+                    {% for category, message in messages %}
+                        <li class="p-2 rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+     <h1> Task manager</h1>
+
+     {% for task in tasks %}
+        <div class="bg-gray-800 w-6xl">
+            <div>
+                <h2>Title</h2>
+                <p>{{task['title']}}</p>
+            </div>
+        
+            <div>
+                <h2>Description</h2>
+                <p>{{task['description']}}</p>
+            </div>   
+            
+            <div>
+                <h2>Due date</h2>
+                <p>{{task['due_date']}}</p>
+            </div>
+
+            <div>
+                <h2>Status</h2>
+                <p>{{task['status']}}</p>
+            </div>
+        
+
+            <div>
+                <a href="{{url_for('edit_task', task_id=task['id'])}}" class="border-2 rounded-md bg-cyan-500 border-cyan-950">EDIT</a>
+            </div> 
+
+            <form action="{{url_for('delete_task', task_id=task['id'])}}" method="post">
+                <button type="submit">DELETE</button>
+            </form>
+
+        </div>
+
+        
+     {% endfor %}
+     
+
+     <a href="{{url_for('create_task')}}">Add new task</a>
+</body>
+
+
+</html>
