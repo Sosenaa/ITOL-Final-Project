@@ -9,17 +9,7 @@
 </head>
 
 <body>
-     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="mb-4">
-                    {% for category, message in messages %}
-                        <li class="p-2 rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+
         
      <form method="POST" action="{{url_for('create_task')}}" class="bg-black-500">
           <label for="title" >title</label>
@@ -34,9 +24,9 @@
           <label for="status">Status</label>
           <select id="status" name="status" required>
                <option value="" disabled selected>Select status</option>
-               <option value="to-do">To Do</option>
-               <option value="in_progress">In Progress</option>
-               <option value="completed">Completed</option>
+               <option value="To do">To Do</option>
+               <option value="In progress">In Progress</option>
+               <option value="Completed">Completed</option>
           </select>
 
           <button type="submit">Add task</button>

@@ -1,22 +1,21 @@
 
 
-
-
 #dashboard-container{
      background-color: #121212 ;
      display: flex;
      width: 100%;
      justify-content: center;
-
 }
 
 #task-container{
+     max-width: 1100px;
+     width: 90%;
      background-color: #1e1e1e;
      border-top: 2px solid rgba(255, 255, 255, 0.209);      /* light highlight */
      box-shadow: 0 4px 6px rgba(0,0,0,0.6); /* dark shadow under */
      border-radius: 18px;
-     width: 90%;
      overflow: hidden;
+     margin-top: 50px;
 }
 
 #task-manager-header{

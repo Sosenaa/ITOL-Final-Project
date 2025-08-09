@@ -13,7 +13,7 @@
 <body class="bg-stone-900 text-white" id="dashboard-container">
 
      
-        <div class="min-w-[80%] mt-10" id="task-container">
+        <div id="task-container">
             <div class="flex p-6 items-center justify-between" id="task-manager-header">
                 <h1 class=" text-3xl">Task Manager</h1>
                 
@@ -23,7 +23,7 @@
             </div>
 
             <table id="table-header" class="mt-6 mb-6">
-                <thead>
+                <thead class="text-xl">
                     <th class="w-1/4">Title</th>
                     <th class="w-1/4">Description</th>
                     <th class="w-1/4">Due date</th>
@@ -35,17 +35,17 @@
             {% for task in tasks %} 
                 <div class="grid grid-cols-4  text-center  border-b border-stone-500">
                     <div class="p-2 flex justify-center items-center" >{{task["title"]}}</div>
-                    <div class="p-2 flex justify-center items-center"">{{task["description"]}}</div>
-                    <div class="p-2 flex justify-center items-center"">{{task["due_date"]}}</div>
+                    <div class="p-2 flex justify-center items-center">{{task["description"]}}</div>
+                    <div class="p-2 flex justify-center items-center">{{task["due_date"]}}</div>
 
-                    {% if task["status"] == "to-do" %}
+                    {% if task["status"] == "To do" %}
                     <div class="p-2 bg-amber-500 flex items-center justify-center relative">{{task["status"]}}
                         <a href="{{url_for('edit_task', task_id=task['id'])}}"class="absolute right-4 hover:text-3xl">
                         <i class="fa-solid fa-pen-to-square "></i>
                         </a>
                     </div>
 
-                    {% elif task["status"] == "in_progress" %}
+                    {% elif task["status"] == "In progress" %}
 
                     <div class="p-2 bg-cyan-500 flex items-center justify-center relative">{{task["status"]}}
                         <a href="{{url_for('edit_task', task_id=task['id'])}}"class="absolute right-4 hover:text-3xl">
@@ -53,7 +53,7 @@
                         </a>
                     </div>
 
-                    {% elif task["status"] == "completed" %}
+                    {% elif task["status"] == "Completed" %}
                     <div class="p-2 bg-green-500 flex items-center justify-center relative">{{task["status"]}}
                         <a href="{{url_for('edit_task', task_id=task['id'])}}" class="absolute right-4 hover:text-3xl" >
                         <i class="fa-solid fa-pen-to-square "></i>

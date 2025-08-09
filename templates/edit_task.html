@@ -8,18 +8,7 @@
 </head>
 
 <body>
-     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="mb-4">
-                    {% for category, message in messages %}
-                        <li class="p-2 rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        
+
      <h1> Edit task</h1>
 
      <form method="POST">
@@ -35,13 +24,17 @@
           <label for="status">Status</label>
           <select name="status" id="status">
                <option value="" disabled selected>Select status</option>
-               <option value="to-do">To Do</option>
-               <option value="in_progress">In Progress</option>
-               <option value="completed">Completed</option>
+               <option value="To do">To Do</option>
+               <option value="In progress">In Progress</option>
+               <option value="Completed">Completed</option>
           </select>
           <button type="submit">Update task</button>
-     </form>
 
+        
+     </form>
+        <form action="{{url_for('delete_task', task_id=task['id'])}}" method="post">
+        <button type="submit">DELETE</button>
+        </form>
 </body>
 
 
