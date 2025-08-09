@@ -1,0 +1,46 @@
+
+
+
+
+#dashboard-container{
+     background-color: #121212 ;
+     display: flex;
+     width: 100%;
+     justify-content: center;
+
+}
+
+#task-container{
+     background-color: #1e1e1e;
+     border-top: 2px solid rgba(255, 255, 255, 0.209);      /* light highlight */
+     box-shadow: 0 4px 6px rgba(0,0,0,0.6); /* dark shadow under */
+     border-radius: 18px;
+     width: 90%;
+     overflow: hidden;
+}
+
+#task-manager-header{
+     background-color: rgb(41, 42, 45);
+     box-shadow: 1px 3px 5px black;
+}
+
+#task-row-container{
+     background-color: #282828;
+}
+
+#table-header{
+     width: 95%;
+     text-align: center;
+     justify-self: center;
+}
+
+#details-container{
+     background-color: rgb(41, 42, 45);
+     border-top: 2px solid rgba(255, 255, 255, 0.209);      /* light highlight */
+     box-shadow: 0 4px 6px rgba(0,0,0,0.6); /* dark shadow under */
+     border-radius: 18px;
+     width: 95%;
+     justify-self: center;
+     margin-bottom: 15px;
+     overflow: hidden;
+}
