@@ -121,6 +121,7 @@ def delete_task(task_id):
                     conn.close()
           return redirect(url_for("dashboard"))
 
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
      if request.method == "POST":
