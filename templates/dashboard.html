@@ -6,17 +6,21 @@
     <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/587d1d898c.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/taskManager.js') }}"></script>
+
     <title>Dashboard</title>
     
 </head>
 
 <body class="bg-stone-900 text-white" id="dashboard-container">
-
-     
+  
         <div id="task-container">
             <div class="flex p-6 items-center justify-between" id="task-manager-header">
                 <h1 class=" text-3xl">Task Manager</h1>
                 
+
+                <input type="text" name="search-by-title" id="search-by-title" placeholder="Search by title" class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"/>
+
                 <div class="flex items-center justify-center border-2 rounded-full w-12 h-12 hover:border-sky-500">
                     <a href="{{url_for('create_task')}}" class="flex items-center justify-center w-full h-full text-6xl -translate-y-1.5 hover:text-sky-500">+</a>
                 </div>
@@ -27,13 +31,18 @@
                     <th class="w-1/4">Title</th>
                     <th class="w-1/4">Description</th>
                     <th class="w-1/4">Due date 
-                        <select id="order" name="order" class="text-black w-4">
-                            <option value="" disabled selected></option>
+                        <select id="date-order" name="date-order" class="text-black w-4 rounded-full ">
                             <option value="Date Descending">Date Descending</option>
                             <option value="Date Ascending">Date Ascending</option>
                         </select>
                     </th>
-                    <th class="w-1/4">Status</th>
+                    <th class="w-1/4">Status
+                        <select id="status" name="status" class="text-black w-4 rounded-full ">
+                            <option value="To do">To Do</option>
+                            <option value="In progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </th>
                 </thead>
             </table> 
 
@@ -72,42 +81,6 @@
             {% endfor %} 
             </div>
         </div>
-        <script>
-            //getting value from id "order"
-            const byDateOrder = document.getElementById("order");
-            //getting velue from task table
-            const details_container = document.querySelector("#details-container");
-            //Listening for order to be changed
-            byDateOrder.addEventListener("change", () => {
-                const order = byDateOrder.value;
-                
-                //getting tasks in rows
-                const rows = Array.from(details_container.querySelectorAll("div.grid"));
-
-                rows.sort((a,b) => {
-                    const rowA = a.children[2].textContent.trim();
-                    const rowB = b.children[2].textContent.trim();
-
-                    const timeA = new Date(rowA).getTime();
-                    const timeB = new Date(rowB).getTime();
-                    console.log(timeB);
-                    //comparing dates
-                    if(order === "Date Ascending"){
-                        return timeA - timeB;
-                    }else if(order === "Date Descending"){
-                        return timeB - timeA;
-                    }else{ 
-                        return 0;
-                    }
-                });
-
-                details_container.innerHTML = "";
-
-                rows.forEach(row => details_container.appendChild(row));
-
-                
-            });
-
-        </script>
+        
 </body>
 </html>

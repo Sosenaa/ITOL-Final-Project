@@ -3,3 +3,40 @@
                                 <button type="submit">DELETE</button>
                                 </form>
      
+
+
+     <script>
+            //getting value from id "order"
+            const byDateOrder = document.getElementById("order");
+            //getting velue from task table
+            const details_container = document.querySelector("#details-container");
+            //Listening for order to be changed
+            byDateOrder.addEventListener("change", () => {
+                const order = byDateOrder.value;
+                
+                //getting tasks in rows
+                const rows = Array.from(details_container.querySelectorAll("div.grid"));
+
+                rows.sort((a,b) => {
+                    const rowA = a.children[2].textContent.trim();
+                    const rowB = b.children[2].textContent.trim();
+
+                    const timeA = new Date(rowA).getTime();
+                    const timeB = new Date(rowB).getTime();
+                    console.log(timeB);
+                    //comparing dates
+                    if(order === "Date Ascending"){
+                        return timeA - timeB;
+                    }else if(order === "Date Descending"){
+                        return timeB - timeA;
+                    }else{ 
+                        return 0;
+                    }
+                });
+
+                details_container.innerHTML = "";
+
+                rows.forEach(row => details_container.appendChild(row));          
+            });
+
+        </script>
