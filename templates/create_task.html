@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/style/style.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Create task</title>
     
 </head>
 
-<body>
+<body class="bg-stone-900 text-white" id="dashboard-container">
 
+     <div id="task-container">
         
-     <form method="POST" action="{{url_for('create_task')}}" class="bg-black-500">
-          <label for="title" >title</label>
-          <input type="text" name="title" id="title" required >
+           <div class="flex p-6 items-center justify-between" id="task-manager-header">
+               <h1 class="text-3xl">Create New Task</h1>
+          </div>
 
-          <label for="description">description</label>
-          <textarea type="text" name="description" id="description" required></textarea>
+          <form method="POST" action="{{url_for('create_task')}}" class="mt-6 mb-6 flex flex-col justify-center items-center overflow-hidden">
+               <label for="title" class="text-3xl py-2" >Title</label>
+               <input type="text" name="title" id="title" required  class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">
 
-          <label for="due_date">Due date</label>
-          <input type="date" name="due_date" id="due_date" required>
+               <label for="description"  class="text-3xl py-2">Description</label>
+               <textarea type="text" name="description" id="description" required class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"></textarea>
 
-          <label for="status">Status</label>
-          <select id="status" name="status" required>
-               <option value="" disabled selected>Select status</option>
-               <option value="To do">To Do</option>
-               <option value="In progress">In Progress</option>
-               <option value="Completed">Completed</option>
-          </select>
+               <label for="due_date"  class="text-3xl py-2">Due date</label>
+               <input type="date" name="due_date" id="due_date" required class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">
 
-          <button type="submit">Add task</button>
-        </form>
+               <label for="status"  class="text-3xl py-2">Status</label>
+               <select id="status" name="status" required class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl appearance-none">
+                    <option value="" disabled selected>Select status</option>
+                    <option value="To do">To Do</option>
+                    <option value="In progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+               </select>
+
+               <div class="w-[50%] bg-lime-600 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
+                    <button type="submit" class="w-full h-full px-4 py-4">Add task</button>
+               </div>
+          </form>
+     </div>
 </body>
 
 
