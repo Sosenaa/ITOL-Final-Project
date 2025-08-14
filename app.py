@@ -89,10 +89,14 @@ def edit_task(task_id):
           description = request.form["description"]
           due_date = request.form["due_date"]
           status = request.form["status"]
-          conn.execute("UPDATE tasks SET title = ?, description = ?, due_date =? , status = ?  WHERE id = ?", (title, description,due_date,status, task_id ))
-          conn.commit()
-          conn.close()
-          return redirect(url_for('dashboard'))
+
+          if (len(title) > 100 or len(description) > 500 or not due_date or not status):
+               flash("Something went wrong, please try again", "error")
+          else:
+               conn.execute("UPDATE tasks SET title = ?, description = ?, due_date =? , status = ?  WHERE id = ?", (title, description,due_date,status, task_id ))
+               conn.commit()
+               conn.close()
+               return redirect(url_for('dashboard'))
      return render_template("dashboard.html")
 
 

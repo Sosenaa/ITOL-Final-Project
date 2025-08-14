@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/587d1d898c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Dashboard</title>
     
 </head>
@@ -13,31 +15,37 @@
      <div id="task-container">
           <div class="flex p-6 items-center justify-between" id="task-manager-header">
                <h1 class="text-3xl">Editing task: "{{task['title']}}"</h1>
+                <div>
+               <form action="{{url_for('delete_task', task_id=task['id'])}}" method="post">
+                    <button type="submit" class="text-3xl mr-4 hover:text-cyan-400"><i class="fa-solid fa-trash"></i></button>
+               </form>
+          </div>
           </div>
 
-          <form method="POST" id="table-header" class="mt-6 mb-6">
-               <label for="title">Title</label>
-               <input type="text" id="title" name="title" value="{{task['title']}}">
+         
 
-               <label for="description">Title</label>
-               <input type="text" id="description" name="description" value="{{task['description']}}">
+          <form method="POST" class="mt-6 mb-6 flex flex-col justify-center items-center overflow-hidden">
+               <label for="title" class="text-3xl py-2">Title</label>
+               <input type="text" id="title" name="title" value="{{task['title']}}" class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">
 
-               <label for="due_date">Title</label>
-               <input type="date" id="due_date" name="due_date" value="{{task['due_date']}}">
+               <label for="description" class="text-3xl py-2">Description</label>
+               <textarea id="description" name="description" rows="8" class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">{{task['description']}}</textarea>
 
-               <label for="status">Status</label>
-               <select name="status" id="status">
-                    <option value="" disabled selected>Select status</option>
+               <label for="due_date" class="text-3xl py-2">Due date</label>
+               <input type="date" id="due_date" name="due_date" value="{{task['due_date']}}" class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">
+
+               <label for="status" class="text-3xl py-2">Status</label>
+               <select name="status" value="{{task['status']}}" id="status" required class="w-[50%] px-4 py-4 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl appearance-none ">
                     <option value="To do">To Do</option>
                     <option value="In progress">In Progress</option>
                     <option value="Completed">Completed</option>
                </select>
-               <button type="submit">Update task</button>
+               <div class="w-[50%] bg-lime-600 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
+                    <button type="submit" class="w-full h-full px-4 py-4" >Update task</button>
+               </div>
                </form>
 
-               <form action="{{url_for('delete_task', task_id=task['id'])}}" method="post">
-                    <button type="submit">DELETE</button>
-               </form>
+               
      </div>
 </body>
 
