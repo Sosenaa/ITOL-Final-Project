@@ -47,3 +47,35 @@
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
+
+form{
+     margin: 10px 0px 10px 0px;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     overflow: hidden;
+}
+
+form{
+     font-size: 1.5rem;
+     padding: 1rem;
+}
+form label{
+     font-size: 2rem;
+}
+
+form input, form textarea {
+     width: 100%;
+     max-width: 800px;
+     padding: 0.5rem 1rem 0.5rem 1rem;
+     background-color: #1c1917;
+     border-radius: 4rem;
+     margin-bottom: 0.5rem;
+     border: 2px solid #332f2c;
+}
+
+input:hover{
+     border: #3a3531;
+     box-shadow: 0px 0px 1px 1px;
+}

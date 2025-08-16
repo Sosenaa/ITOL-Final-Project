@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Register</title>
     
 </head>
 
-<body>
-     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="mb-4">
-                    {% for category, message in messages %}
-                        <li class="p-2 rounded-md {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        
+<body class="bg-stone-900 text-white" id="dashboard-container">
+
+    <div id="task-container">
+
+        <div class="flex p-6 items-center justify-between" id="task-manager-header">
+            <h1 class="text-3xl">Login</h1>
+            <div>
+                <a href="{{url_for('register')}}" class="text-blue-500 text-xl">You don't have account yet? Register here</a>
+            </div>
+        </div>
+
      <form method="POST" action="{{url_for('login')}}">
         <label for="username">User name</label>
         <input type="text" name="username" id="username" required>
@@ -27,8 +27,11 @@
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
 
-        <button type="submit">Login</button>
+        <div class="w-[30%] bg-lime-600 text-center border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
+        <button type="submit" class="w-full h-full">Login</button>
+        </div>
      </form>
+    </div>
 </body>
 
 
