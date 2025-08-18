@@ -65,17 +65,71 @@ form label{
      font-size: 2rem;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
      width: 100%;
      max-width: 800px;
      padding: 0.5rem 1rem 0.5rem 1rem;
      background-color: #1c1917;
-     border-radius: 4rem;
+     border-radius: 1rem;
      margin-bottom: 0.5rem;
      border: 2px solid #332f2c;
+     appearance: none;
 }
 
 input:hover{
      border: #3a3531;
      box-shadow: 0px 0px 1px 1px;
+}
+
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: #12121200; /* Fallback color */
+
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #121212 ;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  border: 2px solid #332f2c;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.modal-content p{
+     font-size: x-large;
+}
+
+/* The Close Button */
+.close {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: white;
+     float: right;
+     font-size: large;
+     font-weight: bold;
+     background-color: #84cc16;
+     width:25px;
+     height:25px;
+     line-height: 1;
+     border-radius: 3px;
+}
+
+.close:hover,
+.close:focus {
+     text-decoration: none;
+     cursor: pointer;
+     background-color: #9cc461;
 }
