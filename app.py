@@ -125,6 +125,12 @@ def delete_task(task_id):
                     conn.close()
           return redirect(url_for("dashboard"))
 
+@app.route("/logout")
+def logout():
+     session.clear()
+     return redirect(url_for("login"))
+
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

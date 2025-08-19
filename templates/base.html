@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/587d1d898c.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/taskManager.js') }}"></script>
+    <title>{% block title%}Base{% endblock %}</title>
+
+</head>
+     <body class="block bg-stone-900 text-white " id="dashboard-container">
+
+          <nav>
+               <ul>
+                    <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
+                    <li><a href="{{url_for('create_task')}}">Create Task</a></li>
+                    <li><a href="{{url_for('logout')}}">Logout</a></li>
+               </ul>
+          </nav>
+
+          <div>{% block content%} {% endblock %}</div>
+
+     </body>
+</html>

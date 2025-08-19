@@ -133,3 +133,9 @@ input:hover{
      cursor: pointer;
      background-color: #9cc461;
 }
+
+
+
+nav ul li{
+     padding:0px 0.3rem 0px 0.3rem;
+}
