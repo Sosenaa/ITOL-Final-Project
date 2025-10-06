@@ -248,7 +248,7 @@ def password_reset():
                #Password requirements + validation
                pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#%])[A-Za-z\d@$#%]{6,20}$"
                reg = re.compile(pattern)
-               match = re.search(pattern, password)
+               match = re.search(pattern, newPassword)
                
                if not match:
                     flash("""
@@ -279,4 +279,4 @@ def password_reset():
 
 if __name__ == "__main__":
      port = int(os.environ.get("PORT", 10000))
-     app.run(host="0.0.0.0", port=port)
+     app.run(host="0.0.0.0", port=port, debug=False)
