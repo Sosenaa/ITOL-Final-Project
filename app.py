@@ -244,7 +244,25 @@ def password_reset():
           userId = token['user_id']
           if request.method == "POST":
                newPassword = request.form['new_password']
+
+               #Password requirements + validation
+               pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#%])[A-Za-z\d@$#%]{6,20}$"
+               reg = re.compile(pattern)
+               match = re.search(pattern, password)
+               
+               if not match:
+                    flash("""
+                              1. Have at least one number
+                              2. Have at least one uppercase letter
+                              3. Have at least one lowercase letter
+                              4. Have at least one special character ($, @, #, %)
+                              5. Be between 6 and 20 characters in length
+                         """)
+                    return render_template("register.html")
+          
+
                hashPassword = generate_password_hash(newPassword)
+
                conn.execute("UPDATE users SET password_hash = ? WHERE id = ?", (hashPassword, userId,))
                print("Password has been changed")
                conn.execute("UPDATE tokens SET tokenValid = 0 WHERE token = ?", (token_value,))
@@ -260,4 +278,5 @@ def password_reset():
 
 
 if __name__ == "__main__":
-     app.run(debug=True)
+     port = int(os.environ.get("PORT", 10000))
+     app.run(host="0.0.0.0", port=port)
