@@ -1,11 +1,9 @@
 {% extends "base.html" %}
     {% block title %}Dashboard{% endblock %}
 
-     
-
     {% block content %}
-        <div id="task-container">
             <div class="flex p-6 items-center justify-between" id="task-manager-header">
+                
                 <h1 class=" text-3xl">Task Manager</h1>
                 
 
@@ -16,7 +14,7 @@
                 </div>
             </div>
 
-            <table id="table-header" class="mt-6 mb-6">
+            <table id="table-header" class="mt-6 mb-6 opacity-0 sm:opacity-100">
                 <thead class="text-xl">
                     <th class="w-1/4">Title</th>
                     <th class="w-1/4">Description</th>
@@ -38,8 +36,8 @@
 
             <div id="details-container">
             {% for task in tasks %} 
-                <div class="grid grid-cols-4  text-center  border-b border-stone-500">
-                    <div class="p-2 flex justify-center items-center" >{{task["title"]}}</div>
+                <div class="grid sm:grid-cols-4 grid-cols-1 text-center  border-b border-stone-500">
+                    <div class="p-2 flex justify-center items-center text-2xl sm:text-lg" >{{task["title"]}}</div>
                     <div class="p-2 flex justify-center items-center">{{task["description"]}}</div>
                     <div class="p-2 flex justify-center items-center">{{task["due_date"]}}</div>
 
@@ -59,17 +57,14 @@
                     </div>
 
                     {% elif task["status"] == "Completed" %}
+
                     <div class="p-2 bg-green-500 flex items-center justify-center relative">{{task["status"]}}
                         <a href="{{url_for('edit_task', task_id=task['id'])}}" class="absolute right-4 hover:text-3xl" >
                         <i class="fa-solid fa-pen-to-square "></i>
                         </a>
                     </div>
-
                     {% endif %}
                 </div>
-                
             {% endfor %} 
             </div>
-        </div>
 {% endblock %}
-</html>

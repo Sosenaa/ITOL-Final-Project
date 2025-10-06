@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/587d1d898c.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Dashboard</title>
-    
-</head>
+{% extends "base.html" %}
+    {% block title %}Dashboard{% endblock %}
 
-<body class="bg-stone-900 text-white" id="dashboard-container">
+     
 
-     <div id="task-container">
+    {% block content %}
           <div class="flex p-6 items-center justify-between" id="task-manager-header">
                <h1 class="text-3xl">Editing task: "{{task['title']}}"</h1>
                 <div>
@@ -57,7 +48,6 @@
                </form>
 
                
-     </div>
      <script>
           let modal = document.getElementById("myModal");
           let deleteButton = document.getElementById("modal-button");
@@ -83,7 +73,7 @@
           }
 
      </script>
-</body>
+{% endblock %}
 
 
 </html>

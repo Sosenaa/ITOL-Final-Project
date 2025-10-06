@@ -1,8 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash 
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from database import get_db_connection, create_tables, DATABASE
+import csv
+from datetime import datetime, timedelta
+import secrets
+from email.mime.text import MIMEText
+from reset_password import sendResetLink, createResetLink
+import re
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -125,12 +131,30 @@ def delete_task(task_id):
                     conn.close()
           return redirect(url_for("dashboard"))
 
+@app.route("/export")
+@login_required
+def export():
+     conn = get_db_connection()
+     tasks = conn.execute("SELECT * FROM tasks").fetchall()
+     taskIndex = 0
+     if len(tasks) > 0:
+          with open("tasks_file.csv", mode="w") as tasks_file:
+               task_writer = csv.writer(tasks_file)
+               task_writer.writerow(["id", "title","description", "due_date", "status"])
+               for task in tasks:
+                    taskIndex = taskIndex + 1 
+                    task_writer.writerow(["Task " + str(taskIndex)])
+                    task_writer.writerow(task)
+          return send_file("tasks_file.csv", as_attachment=True)
+     else:
+          flash("No task to export" "error")
+          return redirect(url_for("dashboard"))
+     
+     
 @app.route("/logout")
 def logout():
      session.clear()
      return redirect(url_for("login"))
-
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -140,15 +164,32 @@ def register():
           password = request.form["password"]
           confirm_password = request.form["confirm_password"]
 
+          #Password requirements + validation
+          pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#%])[A-Za-z\d@$#%]{6,20}$"
+          reg = re.compile(pattern)
+          match = re.search(pattern, password)
+
           #basic server side validation
           if not username or not email or not password or not confirm_password:
                flash("Information missing, please complete all fields", "error")
                return render_template("register.html")
           
+     
           if password != confirm_password:
                flash("Passwords do not match", "error")
                return render_template("register.html")
           
+          if not match:
+               flash("""
+                         1. Have at least one number
+                         2. Have at least one uppercase letter
+                         3. Have at least one lowercase letter
+                         4. Have at least one special character ($, @, #, %)
+                         5. Be between 6 and 20 characters in length
+                     """)
+               return render_template("register.html")
+          
+
           password_hash = generate_password_hash(password)
 
           conn = get_db_connection()
@@ -165,12 +206,58 @@ def register():
                flash("Registration completed successfully", "success")
                return render_template("login.html")
           
-          except sqlite3.IntegrityError():
+          except sqlite3.IntegrityError:
                flash("There has been an error, please try again", "error")
                return render_template("register.html")
           finally:
                conn.close()
      return render_template("register.html")
-                    
+
+@app.route("/password_reminder", methods=["GET", "POST"])
+def password_reminder():
+     if request.method == "POST":
+          email = request.form["email"]
+          conn = get_db_connection()
+
+          user = conn.execute("SELECT id, email FROM users WHERE email = ?", (email,)).fetchone()
+          if user: 
+               token = secrets.token_urlsafe(32)
+               expiresAt = datetime.now() + timedelta(hours=1)
+
+               conn.execute("INSERT INTO tokens (token, expires_at, user_id) VALUES (?, ? ,?)", (token, expiresAt, user['id']))
+               conn.commit()
+               createResetLink(user['email'],token)
+
+     return render_template("password_reminder.html")
+
+@app.route("/password_reset", methods=["GET", "POST"])
+def password_reset():
+     conn = get_db_connection()
+     token_value = request.args.get("token")
+     token = conn.execute("SELECT tokenValid, expires_at, user_id FROM tokens WHERE token = ?", (token_value,)).fetchone()
+     currentTime = datetime.now()
+     expiresAt = datetime.fromisoformat(token['expires_at'])
+     print(f"Thos is token epiry time ", expiresAt)
+     print(f" this is current time",  currentTime)
+
+     if expiresAt > currentTime and token['tokenValid'] == 1:
+          userId = token['user_id']
+          if request.method == "POST":
+               newPassword = request.form['new_password']
+               hashPassword = generate_password_hash(newPassword)
+               conn.execute("UPDATE users SET password_hash = ? WHERE id = ?", (hashPassword, userId,))
+               print("Password has been changed")
+               conn.execute("UPDATE tokens SET tokenValid = 0 WHERE token = ?", (token_value,))
+               conn.commit()
+               flash("Password has been changed.", "success")
+               return redirect(url_for("login"))
+     else:
+          flash("Token has expired.", "error")
+          return redirect(url_for("dashboard"))
+
+     return render_template("password_reset.html")
+
+
+
 if __name__ == "__main__":
      app.run(debug=True)

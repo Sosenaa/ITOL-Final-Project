@@ -1,34 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ url_for('static', filename='style/style.css') }}" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Create task</title>
-    
-</head>
+{% extends "base.html" %}
+    {% block title %}Create task{% endblock %}
 
-<body class="bg-stone-900 text-white" id="dashboard-container">
+     
 
-     <div id="task-container">
-        
-           <div class="flex p-6 items-center justify-between" id="task-manager-header">
+    {% block content %}
+
+          <div class="flex p-6 items-center justify-between" id="task-manager-header">
                <h1 class="text-3xl">Create New Task</h1>
           </div>
 
           <form method="POST" action="{{url_for('create_task')}}" class="mt-6 mb-6 flex flex-col justify-center items-center overflow-hidden">
                <label for="title" class="text-3xl py-2" >Title</label>
-               <input type="text" name="title" id="title" required  class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">
+               <input type="text" name="title" id="title" required >
 
                <label for="description"  class="text-3xl py-2">Description</label>
-               <textarea type="text" name="description" id="description" required class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"></textarea>
+               <textarea type="text" name="description" id="description" required></textarea>
 
                <label for="due_date"  class="text-3xl py-2">Due date</label>
-               <input type="date" name="due_date" id="due_date" required class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl">
+               <input type="date" name="due_date" id="due_date" required>
 
                <label for="status"  class="text-3xl py-2">Status</label>
-               <select id="status" name="status" required class="w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl appearance-none">
+               <select id="status" name="status" required>
                     <option value="" disabled selected>Select status</option>
                     <option value="To do">To Do</option>
                     <option value="In progress">In Progress</option>
@@ -39,8 +31,7 @@
                     <button type="submit" class="w-full h-full px-4 py-4">Add task</button>
                </div>
           </form>
-     </div>
-</body>
+{% endblock %}
 
 
 </html>

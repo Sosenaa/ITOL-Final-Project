@@ -8,20 +8,63 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/587d1d898c.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/taskManager.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     <title>{% block title%}Base{% endblock %}</title>
 
 </head>
-     <body class="block bg-stone-900 text-white " id="dashboard-container">
+          <div id="message" class="absolute">
+               {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                         {% set category, message = messages[-1] %}
+                              <p>{{ message }}</p>
+                    {% endif %}
+               {% endwith %}
+          </div>
+     <body class="bg-stone-900 text-white " id="dashboard-container">
+          
 
-          <nav>
-               <ul>
-                    <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
-                    <li><a href="{{url_for('create_task')}}">Create Task</a></li>
-                    <li><a href="{{url_for('logout')}}">Logout</a></li>
-               </ul>
-          </nav>
+          <!-- Desktop menu-->
+          <div id="task-container">
+               <nav class="font-mono px-6 py-2">
+                    <div class="hidden sm:flex place-content-between text-xl">
+                         <a href="{{url_for('dashboard')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Dashboard</a>
+                         {% if session.get('user_id')  %}
+                              <a href="{{url_for('logout')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Logout</a>
+                              <a href="{{url_for('export')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Export tasks</a>
+                              <a href="{{url_for('create_task')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Create Task</a>
+                         {% else %}
+                              <a href="{{url_for('logout')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Login</a>
+                         {% endif %}
+                    </div>
 
-          <div>{% block content%} {% endblock %}</div>
 
+          <!--Mobile menu-->
+                    <div x-data="{open:false}" class="sm:hidden relative">
+                         <button @click="open = !open" class="p-2 text-white">
+                              <i class="fa-solid fa-bars text-3xl"></i>
+                         </button>
+
+                         <div x-show="open" @click.outside="open = false" class="absolute left-0 top-2 mt-6 w-40 bg-[#1e1e1e] rounded shadow-xl flex flex-col space-y-1 p-2 z-50">
+                                   <a href="{{url_for('dashboard')}}" class="p-2 hover:bg-amber-500 hover:text-black rounded">Dashboard</a>
+                              {% if session.get('user_id')  %}
+                                   <a href="{{url_for('logout')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Logout</a>
+                                   <a href="{{url_for('export')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Export tasks</a>
+                                   <a href="{{url_for('create_task')}}"class="p-2 hover:bg-amber-500 hover:text-black rounded">Create Task</a>
+                              {% else %}
+                                   <a href="{{url_for('logout')}}"class="p-2 hover:bg-gray-500 hover:text-black rounded">Login</a>
+                              {% endif %}
+                         </div>
+                    </div>     
+                    
+               </nav>
+               {% block content%} {% endblock %}
+          </div>  
      </body>
+     <script>
+          setTimeout(()=> {
+               const msg = document.getElementById("message");
+               msg.style.opacity = 0;
+          },5000);
+     </script>
 </html>

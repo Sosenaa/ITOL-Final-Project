@@ -33,6 +33,16 @@ def create_tables():
                     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
                     )
                ''')
+     cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS tokens(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    token VARCHAR(64) UNIQUE NOT NULL,
+                    expires_at TEXT NOT NULL,
+                    tokenValid INTEGER NOT NULL DEFAULT 1,
+                    user_id INTEGER NOT NULL,
+                    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE
+                    )
+               ''')
      
      conn.commit()
      conn.close()
