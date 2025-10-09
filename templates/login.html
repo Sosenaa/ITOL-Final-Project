@@ -7,7 +7,7 @@
         <div class="flex p-6 items-center justify-between" id="task-manager-header">
             <h1 class="text-3xl">Login</h1>
             <div>
-                <a href="{{url_for('register')}}" class="text-blue-500 text-xl">You don't have account yet? Register here</a>
+                <a href="{{url_for('register')}}" class="text-blue-500 text-xl">Register here</a>
             </div>
         </div>
 
@@ -18,8 +18,8 @@
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
 
-        <div class="w-[30%] bg-lime-600 text-center border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
-        <button type="submit" class="w-full h-full">Login</button>
+        <div class="w-[40%] bg-lime-600 text-center border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
+        <button type="submit" class="flex w-full h-full justify-center items-center px-4">Login</button>
         </div>
         <div class="text-center text-lg text-blue-500">
         <a href="{{url_for('password_reminder')}}">Forgot password ? Click here</a>

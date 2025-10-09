@@ -6,9 +6,9 @@
     {% block content %}
 
             <div class="flex p-6 items-center justify-between" id="task-manager-header">
-               <h1 class="text-3xl">Registration</h1>
+               <h1 class="text-2xl sm:text-3xl">Registration</h1>
                 <div>
-                    <a href="{{url_for('login')}}" class="text-blue-500 text-xl">You already have an account ? Login here</a>
+                    <a href="{{url_for('login')}}" class="text-blue-500 text-xl">Login here</a>
                 </div>
             </div>
           
@@ -26,8 +26,8 @@
             <label for="confirm_password">Confirm password</label>
             <input type="password" name="confirm_password" id="confirm_password">
 
-            <div  class="w-[30%] bg-lime-600 text-center border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
-            <button type="submit" class="w-full h-full">Register</button>
+            <div  class="w-[40%] bg-lime-600 text-center border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10 ">
+            <button type="submit" class="flex w-full h-full justify-center items-center px-4">Register</button>
             </div>
             </form>
 
