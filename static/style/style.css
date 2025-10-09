@@ -14,7 +14,6 @@
      border-top: 2px solid rgba(255, 255, 255, 0.209);      /* light highlight */
      box-shadow: 0 4px 6px rgba(0,0,0,0.6); /* dark shadow under */
      border-radius: 18px;
-     overflow: scroll;
      margin-top: 50px;
 }
 
