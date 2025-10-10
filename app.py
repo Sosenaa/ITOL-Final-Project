@@ -39,7 +39,7 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
      if request.method == "POST":
-          username = request.form["username"]
+          username = request.form["username"].lower()
           password = request.form["password"]
 
           conn = get_db_connection()
@@ -165,7 +165,7 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
      if request.method == "POST":
-          username = request.form["username"]
+          username = request.form["username"].lower()
           email = request.form["email"]
           password = request.form["password"]
           confirm_password = request.form["confirm_password"]
@@ -285,7 +285,7 @@ def password_reset():
 
 if __name__ == "__main__":
      
-     port = int(os.environ.get("PORT", 10000))
-     app.run(host="0.0.0.0", port=port, debug=False)
+    #port = int(os.environ.get("PORT", 10000))
+     #app.run(host="0.0.0.0", port=port, debug=True)
 
-     #app.run(debug=True)
+     app.run(debug=True)
