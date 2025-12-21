@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+    {% block title %}Activity Log{% endblock %}
+ 
+     
+
+    {% block content %}
+        <div class="flex p-6 items-center justify-between" id="task-manager-header">
+            <h1 class="text-3xl">Activity Log</h1>
+            <div>
+                <a href="{{url_for('dashboard')}}" class="text-blue-500 text-xl">Back to dashboard</a>
+            </div>
+        </div>
+
+     <div>
+     {% if logs %}
+          <table class="w-full table-fixed border-collapse">
+
+               <thead>
+                    <tr>
+                         <th class="w-1/4 text-left px-2">Action</th>
+                         <th class="w-1/4 text-left px-2">ID</th>
+                         <th class="w-1/4 text-left px-2">Title</th>
+                         <th class="w-1/4 text-left px-2">Time</th>
+                    </tr>
+               </thead>
+
+               <tbody>
+                    {% for log in logs %}
+                    <tr class="border-t">
+                         <td class="px-2 py-1">{{log.action}}</td>
+                         <td class="px-2 py-1">{{log.task_id}}</td>
+                         <td class="px-2 py-1">{{log.task_title}}</td>
+                         <td class="px-2 py-1">{{log.timestamp}}</td>
+                    </tr>
+                    {% endfor %}
+               </tbody>
+
+          </table>
+     {% endif %}
+     </div>
+     
+{% endblock %}
+
+
+</html>
