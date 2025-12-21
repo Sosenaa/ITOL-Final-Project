@@ -15,12 +15,12 @@
             
                 <input type="text" name="search-by-title" id="search-by-title" placeholder="Search by title" class="hidden sm:flex w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"/>
 
-                <div id="add-task" class="hidden sm:flex items-center justify-center border-2 rounded-full w-12 h-12 hover:border-sky-500 m-2">
+                <div id="add-task" class="flex items-center justify-center border-2 rounded-full w-12 h-12 hover:border-sky-500 m-2">
                     <a href="{{url_for('create_task')}}" ><i class="fa-solid fa-plus text-2xl"></i></a>
                 </div>
             </div>
 
-            <table id="table-header" class="mt-6 mb-6 opacity-0 sm:opacity-100">
+            <table id="table-header" class="mt-6 mb-6 sm:table hidden">
                 <thead class="text-xl">
                     <th class="w-1/4">Title</th>
                     <th class="w-1/4">Description</th>
@@ -42,7 +42,7 @@
 
             <div id="details-container">
             {% for task in tasks %} 
-                <div class="grid sm:grid-cols-4 grid-cols-1 text-center  border-b border-stone-500">
+                <div class="grid sm:grid-cols-4 grid-cols-1 text-center  border-b border-stone-500 ">
                     <div class="p-2 flex justify-center items-center text-2xl sm:text-lg" >{{task["title"]}}</div>
                     <div class="p-2 flex justify-center items-center">{{task["description"]}}</div>
                     <div class="p-2 flex justify-center items-center">{{task["due_date"]}}</div>

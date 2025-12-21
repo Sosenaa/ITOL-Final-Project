@@ -13,9 +13,11 @@ import re
 app = Flask(__name__)
 app.secret_key = "dev"
 
+
+#for PRODUCTION change SESSION_COOKIE_SECURE=True & SESSION_COOKIE_SAMESITE='None',
 app.config.update(
-     SESSION_COOKIE_SECURE=True,
-     SESSION_COOKIE_SAMESITE="None",
+     SESSION_COOKIE_SECURE=False,
+     SESSION_COOKIE_SAMESITE='Lax',
      SESSION_COOKIE_HTTPONLY=True
      )
 
@@ -141,7 +143,8 @@ def delete_task(task_id):
 @login_required
 def export():
      conn = get_db_connection()
-     tasks = conn.execute("SELECT * FROM tasks").fetchall()
+     user_id = session[user_id]
+     tasks = conn.execute("SELECT * FROM tasks WHERE user_id = ?", (user_id,)).fetchall()
      taskIndex = 0
      if len(tasks) > 0:
           with open("tasks_file.csv", mode="w") as tasks_file:
@@ -285,7 +288,7 @@ def password_reset():
 
 if __name__ == "__main__":
      
-    #port = int(os.environ.get("PORT", 10000))
-     #app.run(host="0.0.0.0", port=port, debug=True)
+     port = int(os.environ.get("PORT", 10000))
+     app.run(host="0.0.0.0", port=port, debug=True)
 
-     app.run(debug=True)
+     #app.run(debug=True)
