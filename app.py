@@ -81,8 +81,14 @@ def create_task():
                flash("Something went wrong, please try again", "error")
           else:
                conn = get_db_connection()
-               conn.execute("INSERT INTO tasks (user_id, title, description, due_date, status) VALUES (?,?,?,?,?)", (user_id, title, description,date,status))
+               cursor = conn.cursor()
+               cursor.execute("INSERT INTO tasks (user_id, title, description, due_date, status) VALUES (?,?,?,?,?)", (user_id, title, description,date,status))
                conn.commit()
+
+               #update activity log
+               task_id = cursor.lastrowid
+               log_activity(user_id, "Created", task_id, title)
+               
                conn.close()
                flash("Task has been added succesffullu!", "success")
                return redirect(url_for('dashboard'))
@@ -90,6 +96,7 @@ def create_task():
      return render_template("create_task.html")
 
 @app.route("/edit_task/<int:task_id>", methods=['GET','POST'])
+@login_required
 def edit_task(task_id):
      if request.method == "GET":
           conn = get_db_connection()
@@ -103,12 +110,14 @@ def edit_task(task_id):
           description = request.form["description"]
           due_date = request.form["due_date"]
           status = request.form["status"]
+          user_id = session["user_id"]
 
           if (len(title) > 100 or len(description) > 500 or not due_date or not status):
                flash("Something went wrong, please try again", "error")
           else:
-               conn.execute("UPDATE tasks SET title = ?, description = ?, due_date =? , status = ?  WHERE id = ?", (title, description,due_date,status, task_id ))
+               conn.execute("UPDATE tasks SET title = ?, description = ?, due_date =? , status = ?  WHERE id = ?", (title, description, due_date, status, task_id ))
                conn.commit()
+               log_activity(user_id, "Updated", task_id, title)
                conn.close()
                return redirect(url_for('dashboard'))
      return render_template("dashboard.html")
@@ -127,10 +136,12 @@ def delete_task(task_id):
                     return redirect(url_for("Login"))
                
                try:
+                    task_row = conn.execute("SELECT title FROM tasks WHERE id = ? AND user_id = ?", (task_id, user_id)).fetchone()
                     task_detele = conn.execute("DELETE FROM tasks WHERE id = ? AND user_id = ? ", (task_id, user_id))
 
                     if task_detele.rowcount > 0:
                          conn.commit()
+                         log_activity(user_id, "Deleted", task_id, task_row["title"])
                     else: 
                          flash("Task not fund", "error") 
                except Exception as e:
@@ -143,7 +154,7 @@ def delete_task(task_id):
 @login_required
 def export():
      conn = get_db_connection()
-     user_id = session[user_id]
+     user_id = session["user_id"]
      tasks = conn.execute("SELECT * FROM tasks WHERE user_id = ?", (user_id,)).fetchall()
      taskIndex = 0
      if len(tasks) > 0:
@@ -154,6 +165,7 @@ def export():
                     taskIndex = taskIndex + 1 
                     task_writer.writerow(["Task " + str(taskIndex)])
                     task_writer.writerow(task)
+               log_activity(user_id, "Downloaded", task_title="Task List")
           return send_file("tasks_file.csv", as_attachment=True)
      else:
           flash("No task to export" "error")
@@ -284,6 +296,29 @@ def password_reset():
 
      return render_template("password_reset.html")
 
+
+def log_activity(user_id, action, task_id=None, task_title=None):
+     conn = get_db_connection()
+     conn.execute(
+          "INSERT INTO activity_log (user_id, action, task_id, task_title) VALUES (?,?,?,?)",(user_id, action, task_id, task_title) 
+     )
+     conn.commit()
+     conn.close()
+
+@app.route("/activity_log")
+@login_required
+def activity_log():
+     user_id = session["user_id"]
+     conn = get_db_connection()
+     logs = conn.execute("" \
+     "SELECT action, task_id, task_title, timestamp " \
+     "FROM activity_log " \
+     "WHERE user_id = ? " \
+     "ORDER BY timestamp DESC " \
+     "LIMIT 50", (user_id,)).fetchall()
+     conn.close()
+
+     return render_template("activity_log.html", logs=logs)
 
 
 if __name__ == "__main__":

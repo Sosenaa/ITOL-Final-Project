@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", () => {
      const orderSelected = document.getElementById("date-order");
      const statusOrder = document.getElementById("status");
-     const title = document.getElementById("search-by-title");
+     const title = document.getElementsByClassName("search-by-title");
 
      if (orderSelected){
           orderSelected.addEventListener("change", (e) => {
@@ -17,14 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
           });
      }
 
-     if(title){
-          title.addEventListener("input", (e)=>{
-               const query = title.value.replace(/\s+/g,'').toLowerCase();
-               searchByTitle(query);
-               console.log(query);
-          });
-     }
+     Array.from(title).forEach(input => {
+     input.addEventListener("input", e => {
+          const query = e.target.value
+               .replace(/\s+/g, "")
+               .toLowerCase();
 
+          searchByTitle(query);
+          });
+     });
 });
 
 function getTaskRows(){
@@ -64,17 +65,16 @@ function sortByStatus(status){
      renderRows(rows);
 }
 
+let currentSearch = "";
+
 function searchByTitle(title){
-     const rows = getTaskRows();
+     currentSearch = title;
 
-     rows.sort((a,b) =>{
-          const statusA = a.children[0].textContent.replace(/\s+/g,'').toLowerCase();
-          const statusB = b.children[0].textContent.replace(/\s+/g,'').toLowerCase();
+     getTaskRows().forEach(row =>{
+          const text = row.children[0].textContent
+          .toLowerCase()
+          .replace(/\s+/g,'');
 
-          if(statusA === title && statusB !== title) return -1;
-          if(statusA !== title && statusB === title) return 1;
-          return 0;
-          console.log(rows);
-     })
-     renderRows(rows);
+          row.style.display = text.includes(title) ? "" : "none";
+     });
 }

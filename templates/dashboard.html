@@ -3,7 +3,7 @@
 
     {% block mobile_search %}
         <div class="w-full mx-4">
-            <input type="text" name="search-by-title" id="search-by-title" placeholder="Search by title" class="flex w-full px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"/>
+            <input type="text" name="search-by-title" id="search-by-title" placeholder="Search by title" class="search-by-title flex w-full px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"/>
         </div>
     {% endblock %}
 
@@ -13,7 +13,7 @@
                 <h1 class=" text-3xl">Task Manager</h1>
 
             
-                <input type="text" name="search-by-title" id="search-by-title" placeholder="Search by title" class="hidden sm:flex w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"/>
+                <input type="text" name="search-by-title" id="search-by-title" placeholder="Search by title" class="search-by-title hidden sm:flex w-[50%] px-4 py-3 bg-stone-900 border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl"/>
 
                 <div id="add-task" class="flex items-center justify-center border-2 rounded-full w-12 h-12 hover:border-sky-500 m-2">
                     <a href="{{url_for('create_task')}}" ><i class="fa-solid fa-plus text-2xl"></i></a>

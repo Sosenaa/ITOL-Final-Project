@@ -43,6 +43,17 @@ def create_tables():
                     FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE CASCADE
                     )
                ''')
+     cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS activity_log(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER NOT NULL,
+                    action TEXT NOT NULL,
+                    task_id INTEGER,
+                    task_title TEXT,
+                    timestamp DATATIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+                    )
+               ''')
      
      conn.commit()
      conn.close()
