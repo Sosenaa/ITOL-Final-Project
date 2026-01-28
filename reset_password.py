@@ -4,9 +4,14 @@ from database import get_db_connection
 import datetime
 import smtplib
 from flask import url_for
+from dotenv import load_dotenv
+import os
 
-sender = "k.sosnowski1695@gmail.com"
-password = "xrrqbifpexojzxno"
+load_dotenv()
+
+sender = os.getenv("EMAIL_USER")
+password = os.getenv("EMAIL_PASS")
+
 
 def createResetLink(email, token):
      resetLink = url_for('password_reset', token=token, _external=True)

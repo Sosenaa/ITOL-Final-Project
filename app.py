@@ -9,9 +9,12 @@ import secrets
 from email.mime.text import MIMEText
 from reset_password import sendResetLink, createResetLink
 import re
+from dotenv import load_dotenv
+import secrets
 
+load_dotenv()
 app = Flask(__name__)
-app.secret_key = "dev"
+app.secret_key = os.getenv("FLASK_SECRET_KEY", secrets.token_hex(32))
 
 
 #for PRODUCTION change SESSION_COOKIE_SECURE=True & SESSION_COOKIE_SAMESITE='None',
