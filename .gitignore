@@ -1,4 +1,13 @@
-__pycache__/
-*.pyc
+/__pycache__/
+**/__pycache__/
+*.py[cod]
 *.db
-*.csv
+.vscode/
+logs/
+.idea/
+node_modules/
+dist/
+build/
+*.log
+coverage/
+*.sqlite3
