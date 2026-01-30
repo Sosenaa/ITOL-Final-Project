@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from email.mime.text import MIMEText
 from database import get_db_connection
@@ -20,8 +21,8 @@ reminders = conn.execute("""
                          LEFT JOIN users ON tasks.user_id = users.id
                          WHERE tasks.due_date = ?""", (todayDate,)).fetchall()
 
-sender = "k.sosnowski1695@gmail.com"
-password = "xrrqbifpexojzxno"
+sender = os.getenv("EMAIL_USER")
+password = os.getenv("EMAIL_PASS")
 
 for r in reminders:
      subject = f"Task: {r['title']} is due today"
