@@ -18,8 +18,8 @@ def send_due_reminders() -> int:
                                    tasks.status, 
                                    users.email
                               FROM tasks
-                              LEFT JOIN users ON tasks.user_id = users.id
-                              WHERE tasks.due_date = ?""", (todayDate,)).fetchall()
+                              JOIN users ON tasks.user_id = users.id
+                              WHERE tasks.due_date <= ? AND users.email IS NOT NULL""", (todayDate,)).fetchall()
 
      resend.api_key = os.getenv("RESEND_API_KEY")
      if not resend.api_key:
