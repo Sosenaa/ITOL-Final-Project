@@ -20,6 +20,8 @@ def create_tables():
                     username TEXT UNIQUE NOT NULL,
                     email TEXT UNIQUE NOT NULL,
                     password_hash TEXT NOT NULL
+                    last_reminder_sent_at TEXT,
+                    reminder_opt_in INTEGER NOT NULL DEFAULT 1
                     )
                ''')
      cursor.execute('''

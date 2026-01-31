@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, abort, jsonify
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -299,6 +299,13 @@ def password_reset():
 
      return render_template("password_reset.html")
 
+@app.post("/cron/send-reminders")
+def cron_send_reminders():
+     secret = request.headers.get("X-CRON-SECRET")
+     if not secret or secret != os.getenv("CRON_SECRET"):
+          abort(401)
+     # TODO: replace with real reminder logic
+     return jsonify({"status": "ok", "emails_sent": 0})
 
 def log_activity(user_id, action, task_id=None, task_title=None):
      conn = get_db_connection()

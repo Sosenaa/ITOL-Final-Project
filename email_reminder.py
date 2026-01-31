@@ -28,8 +28,6 @@ resend.api_key = "re_NLq5z42u_8aChM8nuu5aPAd4PxAYsZVGi"
 
 
 
-
-
 for r in reminders:
      subject = f"Task: {r['title']} is due today"
      body = f"Task: {r['description']}"
