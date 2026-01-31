@@ -1,0 +1,17 @@
+name: Send task reminders
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes (UTC)
+  workflow_dispatch:        # manual run button
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call reminders endpoint
+        run: |
+          curl -X POST "${{ secrets.REMINDER_URL }}" \
+            -H "X-CRON-SECRET: ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            --fail
