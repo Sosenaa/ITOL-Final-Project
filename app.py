@@ -11,6 +11,7 @@ from reset_password import sendResetLink, createResetLink
 import re
 from dotenv import load_dotenv
 import secrets
+from email_reminder import send_due_reminders
 
 load_dotenv()
 app = Flask(__name__)
@@ -304,8 +305,9 @@ def cron_send_reminders():
      secret = request.headers.get("X-CRON-SECRET")
      if not secret or secret != os.getenv("CRON_SECRET"):
           abort(401)
-     # TODO: replace with real reminder logic
-     return jsonify({"status": "ok", "emails_sent": 0})
+     
+     emails_sent = send_due_reminders()
+     return jsonify({"status": "ok", "emails_sent": emails_sent})
 
 def log_activity(user_id, action, task_id=None, task_title=None):
      conn = get_db_connection()
