@@ -162,16 +162,22 @@ def export():
      tasks = conn.execute("SELECT * FROM tasks WHERE user_id = ?", (user_id,)).fetchall()
      taskIndex = 0
      if len(tasks) > 0:
-          with open("tasks_file.csv", mode="w") as tasks_file:
+          with open("tasks_file.csv", mode="w", newline="") as tasks_file:
                task_writer = csv.writer(tasks_file)
-               task_writer.writerow(["id", "title","description", "due_date", "status"])
+
                for task in tasks:
-                    taskIndex = taskIndex + 1 
-                    task_writer.writerow(["Task " + str(taskIndex)])
-                    task_writer.writerow(task)
+
+                    task_writer.writerow(["Title - ", task["title"]])
+                    task_writer.writerow(["Description - ", task["description"]])
+                    task_writer.writerow(["Due Date - ", task["due_date"]])
+                    task_writer.writerow(["Status - ", task["status"]])
+                    task_writer.writerow("")  # Empty line between tasks
+     
                log_activity(user_id, "Downloaded", task_title="Task List")
+          conn.close()
           return send_file("tasks_file.csv", as_attachment=True)
      else:
+          conn.close()
           flash("No task to export" "error")
           return redirect(url_for("dashboard"))
      
