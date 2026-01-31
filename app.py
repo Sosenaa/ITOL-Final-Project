@@ -302,8 +302,11 @@ def password_reset():
 
 @app.post("/cron/send-reminders")
 def cron_send_reminders():
-     secret = request.headers.get("X-CRON-SECRET")
-     if not secret or secret != os.getenv("CRON_SECRET"):
+     expected = os.getenv("CRON_SECRET")
+     got = request.headers.get("X-CRON-SECRET")
+     print("expected:",repr(expected))
+     print("got:",repr(got))
+     if not got or got != expected:
           abort(401)
      
      emails_sent = send_due_reminders()
