@@ -4,6 +4,9 @@ from email.mime.text import MIMEText
 from database import get_db_connection
 import datetime
 import smtplib
+import resend
+
+
 #get connection to database
 conn = get_db_connection()
 #get todays date (yyyy - mm -- dd)
@@ -21,20 +24,20 @@ reminders = conn.execute("""
                          LEFT JOIN users ON tasks.user_id = users.id
                          WHERE tasks.due_date = ?""", (todayDate,)).fetchall()
 
-sender = os.getenv("EMAIL_USER")
-password = os.getenv("EMAIL_PASS")
+resend.api_key = "re_NLq5z42u_8aChM8nuu5aPAd4PxAYsZVGi"
+
+
+
+
 
 for r in reminders:
      subject = f"Task: {r['title']} is due today"
      body = f"Task: {r['description']}"
      receiver = r['email']
 
-
-     msg = MIMEText(body)
-     msg["Subject"] = subject
-     msg["From"] = sender
-     msg["To"] = receiver
-     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp_server:
-          smtp_server.login(sender, password)
-          smtp_server.sendmail(sender, receiver, msg.as_string())
-          print(f"Message sent to ", receiver)
+     r = resend.Emails.send({
+     "from": "onboarding@resend.dev",
+     "to": receiver,
+     "subject": subject,
+     "html": body
+     })
