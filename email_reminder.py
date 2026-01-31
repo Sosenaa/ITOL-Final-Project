@@ -2,6 +2,7 @@ import os
 import sqlite3
 from database import get_db_connection
 import datetime
+import time
 import resend
 
 def send_due_reminders() -> int:
@@ -26,19 +27,23 @@ def send_due_reminders() -> int:
           raise RuntimeError("RESEND_API_KEY Missing")
 
      from_email = os.getenv("FROM_EMAIL", "onboarding@resend.dev")
-     email_sent = 0
+     emails_sent = 0
                             
      for r in reminders:
+          receiver = r['email']
           subject = f"Task: {r['title']} is due today"
           body = f"Task: {r['description']}"
-          receiver = r['email']
+          
 
-          r = resend.Emails.send({
+          resend.Emails.send({
           "from": from_email,
           "to": [receiver],
           "subject": subject,
           "html": body
           })
-          email_sent += 1
+
+          emails_sent += 1
+
+          time.sleep(0.6)
      conn.close()
-     return email_sent
+     return emails_sent
