@@ -310,6 +310,7 @@ def password_reset():
                print("Password has been changed")
                conn.execute("UPDATE tokens SET tokenValid = 0 WHERE token = ?", (token_value,))
                conn.commit()
+               conn.close()
                flash("Password has been changed.", "success")
                return redirect(url_for("login"))
      else:
