@@ -73,6 +73,7 @@ def dashboard():
      return render_template("dashboard.html", username=session.get("username"), tasks=tasks)
 
 @app.route("/create_task", methods=['GET', 'POST'])
+@login_required
 def create_task():
      if request.method == "POST":
           user_id = session.get("user_id")
@@ -104,7 +105,7 @@ def create_task():
 def edit_task(task_id):
      if request.method == "GET":
           conn = get_db_connection()
-          task = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
+          task = conn.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", (task_id, session["user_id"])).fetchone()
           conn.close()
           return render_template("edit_task.html", task=task)
      
@@ -119,7 +120,7 @@ def edit_task(task_id):
           if (len(title) > 100 or len(description) > 500 or not due_date or not status):
                flash("Something went wrong, please try again", "error")
           else:
-               conn.execute("UPDATE tasks SET title = ?, description = ?, due_date =? , status = ?  WHERE id = ?", (title, description, due_date, status, task_id ))
+               conn.execute("UPDATE tasks SET title = ?, description = ?, due_date =? , status = ?  WHERE id = ? AND user_id = ?", (title, description, due_date, status, task_id, user_id))
                conn.commit()
                log_activity(user_id, "Updated", task_id, title)
                conn.close()
@@ -265,11 +266,22 @@ def password_reminder():
 def password_reset():
      conn = get_db_connection()
      token_value = request.args.get("token")
+
+     if not token_value:
+          conn.close()
+          flash("Invalid or missing token.", "error")
+          return redirect(url_for("password_reminder"))
+     
      token = conn.execute("SELECT tokenValid, expires_at, user_id FROM tokens WHERE token = ?", (token_value,)).fetchone()
+     
+     if token is None:
+          conn.close()
+          flash("Invalid or expired token.", "error")
+          return redirect(url_for("password_reminder"))
+     
      currentTime = datetime.now()
      expiresAt = datetime.fromisoformat(token['expires_at'])
-     print(f"Thos is token epiry time ", expiresAt)
-     print(f" this is current time",  currentTime)
+
 
      if expiresAt > currentTime and token['tokenValid'] == 1:
           userId = token['user_id']
