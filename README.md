@@ -68,4 +68,4 @@ Open: http://127.0.0.1:10000
 ![Create Task View](screenshots/Create_task_view.png)
 
 ### Activity Log
-![Activity Log](screenshots/Activity.png)
+![Activity Log](screenshots/Activity_log.png)
