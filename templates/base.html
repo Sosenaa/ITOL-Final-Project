@@ -13,14 +13,7 @@
     <title>{% block title%}Base{% endblock %}</title>
 </head>
 
-     <div id="message" class="absolute">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-               {% if messages %}
-                    {% set category, message = messages[-1] %}
-                         <p>{{ message }}</p>
-               {% endif %}
-          {% endwith %}
-     </div>
+
 
      <body class="bg-stone-900 text-white " id="dashboard-container">
           

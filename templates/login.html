@@ -18,6 +18,16 @@
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
 
+
+        <div id="message">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+               {% if messages %}
+                    {% set category, message = messages[-1] %}
+                         <p>{{ message }}</p>
+               {% endif %}
+          {% endwith %}
+        </div>
+
         <div class="bg-lime-600 text-center border border-gray-300 dark:border-gray-600 rounded-3xl hover:border-gray-500 shadow-xl my-10">
         <button type="submit" class="flex justify-center items-center px-6 py-2 text-xl">Login</button>
         </div>
